@@ -1,18 +1,27 @@
-name: Python application test
+name: Python application test with Github Actions
 
 on: [push]
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with: 
-          python-version:3.8
-      # Install dependencies and build app
-      - name: Install Dependencies
-        run: npm install
-      - name: Build app
-        run: npm run build
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        make install
+    - name: Lint with pylint
+      run: |
+        make lint
+    - name: Test with pytest
+      run: |
+        make test
+    - name: Format code
+      run: |
+        make format
